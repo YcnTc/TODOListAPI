@@ -3,8 +3,12 @@ const app = express();
 const port = 3000;
 const router = require('./routes/api/tasks');
 
+// parse
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 //Middlware
-app.use('/', router);
+app.use('/tasks', router);
 
 //ROUTE HOME
 app.get('/', (req, res) => {

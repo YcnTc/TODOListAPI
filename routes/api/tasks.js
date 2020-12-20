@@ -20,8 +20,11 @@ router.post('/', (req, res) =>{
 });
 
 //DELETE TASK
-
-//UPDATE TASK
+router.delete('/:id', (req, res) =>{
+    const indexOfTask = tasks.map(task => task.id).indexOf(parseInt(req.params.id)); 
+    tasks.splice(indexOfTask, 1);
+    res.json(tasks);
+});
 
 
 module.exports = router;

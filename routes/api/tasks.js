@@ -21,8 +21,12 @@ router.post('/', (req, res) =>{
 
 //DELETE TASK
 router.delete('/:id', (req, res) =>{
-    const indexOfTask = tasks.map(task => task.id).indexOf(parseInt(req.params.id)); 
-    tasks.splice(indexOfTask, 1);
+    tasks.forEach(element => {
+        if (element.id === parseInt(req.params.id))
+        {
+            tasks.splice(element.indexOf, 1);
+        }
+    });
     res.json(tasks);
 });
 

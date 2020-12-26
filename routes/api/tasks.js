@@ -30,5 +30,19 @@ router.delete('/:id', (req, res) =>{
     res.json(tasks);
 });
 
+//PATCH TASK
+router.patch('/:id', (req, res) => {
+    tasks.forEach(element => {
+        if (element.id === parseInt(req.params.id))
+        {
+            if(req.body.hasOwnProperty('title'))
+            {
+                element.title = req.body.title;
+            }
+        }
+    });
+    res.json(tasks);   
+});
+
 
 module.exports = router;

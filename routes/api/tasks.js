@@ -1,47 +1,50 @@
 const express = require('express');
 const router = express.Router();
-const tasks = require('../../Tasks');
+const Task = require('../../models/task');
 
 //GET ALL TASKS
 router.get('/', (req, res) => {
-    res.json(tasks);
+    
+    Task.find()
+    .then((result) => res.send(result))
+    .catch((err) => console.log(err));
 });
 
 //GET TASK by id 
 router.get('/:id', (req, res) => {
-    const found = tasks.find(task => task.id === parseInt(req.params.id));
-    res.json(found);
+
+    Task.findById(req.params.id)
+    .then((result) => res.send(result))
+    .catch((err) => console.log(err));
 });
 
 //ADD TASK
 router.post('/', (req, res) =>{
-    tasks.push(req.body);
-    res.json(tasks);
+
+    const task = new Task({
+        title: req.body.title,
+        description: req.body.description,
+    });
+
+    task.save()
+        .then((result) => res.send(result))
+        .catch((err) => console.log(err));
 });
 
 //DELETE TASK
 router.delete('/:id', (req, res) =>{
-    tasks.forEach(element => {
-        if (element.id === parseInt(req.params.id))
-        {
-            tasks.splice(element.indexOf, 1);
-        }
-    });
-    res.json(tasks);
+
+    Task.findByIdAndDelete(req.params.id)
+    .then((result) => res.send(result))
+    .catch((err) => console.log(err));
 });
 
 //PATCH TASK
 router.patch('/:id', (req, res) => {
-    tasks.forEach(element => {
-        if (element.id === parseInt(req.params.id))
-        {
-            if(req.body.hasOwnProperty('title'))
-            {
-                element.title = req.body.title;
-            }
-        }
-    });
-    res.json(tasks);   
+
+    Task.findByIdAndUpdate(req.params.id, { $set: req.body })
+    .then((result) => res.send(result))
+    .catch((err) => console.log(err));
 });
 
 
